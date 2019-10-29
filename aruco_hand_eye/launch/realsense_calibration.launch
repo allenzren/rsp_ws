@@ -1,0 +1,38 @@
+<launch>
+  <!-- Realsense R200 -->
+  <include file="$(find realsense_camera)/launch/r200_nodelet_default.launch"/>
+
+  <!-- UR5 -->
+  <include file="$(find ur_modern_driver)/launch/ur5_bringup_compatible.launch">
+    <arg name="robot_ip" value="172.22.22.2"/>
+  </include>
+
+  <!-- Hand-eye calibration -->
+  <include file="$(find aruco_hand_eye)/launch/aruco_hand_eye.launch">
+    <arg name="image"               value="/camera/color/image_raw"/>
+    <arg name="camera"              value="/camera/color"/>
+    <arg name="camera_info"         value="/camera/color/camera_info"/>
+    <arg name="camera_frame"        value="/camera_rgb_optical_frame"/>
+    <arg name="camera_parent_frame" value="/ee_link"/>
+    <arg name="marker_frame"        value="/marker"/>
+    <arg name="marker_parent_frame" value="/base_link"/>
+    <arg name="markerid"            value="1"/>
+    <arg name="markersize"          value="0.1"/>
+    <arg name="xyz_optical_base"    value="[ 0.000, 0.000,  0.000]"/>
+    <arg name="rpy_optical_base"    value="[-1.571, 0.000, -1.571]"/>
+  </include>
+
+  <node pkg="aruco_ros" type="single" name="aruco" ns="camera/color">
+    <remap from="/image" to="image_raw" />
+    <remap from="/camera_info" to="camera_info" />
+    <param name="image_is_rectified" value="True"/>
+    <param name="marker_size"        value="0.045"/>
+    <param name="marker_id"          value="01"/>
+    <param name="camera_frame"       value="camera_link"/>
+    <param name="marker_frame"       value="marker" />
+    <param name="corner_refinement"  value="SUBPIX" />
+  </node>
+
+  <!-- RViz -->
+  <node pkg="rviz" type="rviz" name="rviz"/>
+</launch>

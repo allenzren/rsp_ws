@@ -1,0 +1,30 @@
+<launch>
+  <!-- Realsense R200 -->
+  <include file="$(find realsense_camera)/launch/r200_nodelet_default.launch"/>
+
+  <!-- UR5 -->
+  <include file="$(find ur_modern_driver)/launch/ur5_bringup_compatible.launch">
+    <arg name="robot_ip" value="172.22.22.2"/>
+  </include>
+
+  <node pkg="aruco_ros" type="single" name="aruco" ns="camera/color">
+    <remap from="/image" to="image_raw" />
+    <remap from="/camera_info" to="camera_info" />
+    <param name="image_is_rectified" value="True"/>
+    <param name="marker_size"        value="0.045"/>
+    <param name="marker_id"          value="01"/>
+    <param name="camera_frame"       value="camera_link"/>
+    <param name="marker_frame"       value="marker" />
+    <param name="corner_refinement"  value="SUBPIX" />
+  </node>
+
+  <!-- RViz -->
+  <node pkg="rviz" type="rviz" name="rviz"/>
+
+  <node pkg="tf" type="static_transform_publisher" name="ee_to_cam" args="0.018058 -0.104088 0.046699 0.383707 0.007614 0.000110 0.923423 ee_link camera_link 100"/>
+
+<node pkg="image_view" type="image_view" name="image_view">
+  <remap from="image" to="camera/color/aruco/result"/>
+  <param name="autosize" value="true"/>
+</node>
+</launch>

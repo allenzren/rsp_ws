@@ -1,0 +1,8 @@
+{
+  "python.autoComplete.extraPaths": [
+    "/home/zhiyi/terradynamics/devel/lib/python2.7/dist-packages",
+    "/home/zhiyi/rsp_ws/devel/lib/python2.7/dist-packages",
+    "/home/zhiyi/catkin_ws/devel/lib/python2.7/dist-packages",
+    "/opt/ros/kinetic/lib/python2.7/dist-packages"
+  ]
+}

@@ -1,0 +1,52 @@
+<launch>
+	<!-- Realsense R200 -->
+	<include file="$(find realsense_camera)/launch/r200_nodelet_default.launch"/>
+
+    <arg name="cub_id1"         default="1"/>
+    <arg name="cub_id2"         default="2"/>
+    <arg name="cub_id3"         default="3"/>
+    <arg name="dest_id"         default="4"/>
+
+    <arg name="markerSize"        default="0.04"/>    <!-- in m -->
+
+    <arg name="eye"               default="left"/>
+    <arg name="dct_normalization" default="True" />
+    <arg name="dct_filter_size"   default="2" />
+
+
+    <node pkg="aruco_ros" type="quad" name="aruco_simple">    
+        <remap from="/camera_info" to="/camera/color/camera_info" />
+        <remap from="/image" to="/camera/color/image_raw" />
+        <param name="image_is_rectified" value="True"/>
+        <param name="marker_size" value="$(arg markerSize)"/>
+        <param name="cub_id1" value="$(arg cub_id1)"/>
+        <param name="cub_id2" value="$(arg cub_id2)"/>
+        <param name="cub_id3" value="$s(arg cub_id3)"/>
+        <param name="dest_id" value="$(arg dest_id)"/>
+        <param name="normalizeImage" value="$(arg dct_normalization)"/>
+        <param name="dct_components_to_remove" value="$(arg dct_filter_size)"/>
+
+        <param name="maker_frame" value="marker" />
+        <param name="parent_name" value="camera_link"/>
+        <param name="child_name1" value="cube_1_frame" />
+        <param name="child_name2" value="cube_2_frame" />
+        <param name="child_name3" value="cube_3_frame" />
+        <param name="child_name4" value="dest_frame" />
+    </node>
+
+  <node pkg="tf" type="static_transform_publisher" name="ee_to_cam" args="0.018058 -0.104088 0.046699 0.383707 0.007614 0.000110 0.923423 ee_link camera_link 100"/>
+
+
+<!--     <node pkg="aruco_ros" type="marker_publisher" name="aruco_marker_publisher">
+        <remap from="/camera_info" to="/cameras/$(arg side)_hand_camera/camera_info" />
+        <remap from="/image" to="/image/raw" />
+        <param name="image_is_rectified" value="True"/>
+        <param name="marker_size"        value="$(arg markerSize)"/>
+        <param name="reference_frame"    value="$(arg ref_frame)"/>  
+        <param name="camera_frame"       value="camera_link"/>
+    </node> -->
+
+
+	<!-- RViz -->
+	<node pkg="rviz" type="rviz" name="rviz"/>
+</launch>

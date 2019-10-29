@@ -1,0 +1,54 @@
+<launch>
+
+  <param name="start" type="bool" value="false" />
+  <param name="planning_ready" type="bool" value="false" />
+  <param name="kinematics_ready" type="bool" value="false" />
+
+  <!-- Debug Info -->
+  <arg name="debug" default="false" />
+  <arg unless="$(arg debug)" name="launch_prefix" value="" />
+  <arg if="$(arg debug)" name="launch_prefix" value="gdb --ex run --args" />
+
+	<!-- <include file="$(find ur_gazebo)/launch/ur5.launch" /> -->
+
+  <include file="$(find ur5_moveit_config)/launch/planning_context.launch">
+    <arg name="load_robot_description" value="true"/>
+  </include>
+
+
+  <!-- We do not have a robot connected, so publish fake joint states -->
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+    <param name="/use_gui" value="false"/> 
+    <rosparam param="/source_list">[/move_group/fake_controller_joint_states]</rosparam>
+  </node>
+  
+  <!-- Given the published joint states, publish tf for the robot links -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="true" output="screen" />
+
+
+  <include file="$(find ur5_moveit_config)/launch/move_group.launch">
+    <arg name="allow_trajectory_execution" value="true"/>  
+    <arg name="fake_execution" value="true"/>
+    <arg name="info" value="true"/>
+    <arg name="debug" value="$(arg debug)"/>
+  </include>
+
+  <include file="$(find ur5_moveit_config)/launch/moveit_rviz.launch">
+    <arg name="config" value="true"/>
+  </include>
+
+  <node name="central" pkg="central_launch" type="central" respawn="false" output="screen">
+  </node>
+
+	<node name="ur5_planning" pkg="ur5_kinematics_planning" type="ur5_planning" respawn="false" launch-prefix="$(arg launch_prefix)" output="screen">
+    <rosparam command="load" file="$(find ur5_moveit_config)/config/kinematics.yaml"/>
+    <param name="/planning_plugin" value="ompl_interface/OMPLPlanner"/>
+    <rosparam command="load" file="$(find ur5_moveit_config)/config/ompl_planning.yaml"/>
+		<remap from="/ur5_planning/planning_scene" to="planning_scene"/>
+  </node>
+
+	<node name="ur5_kinematics" pkg="ur5_kinematics_planning" type="ur5_kinematics" respawn="false"
+    output="screen">
+    <!-- <remap from="joint_states" to="robot/joint_states"/> -->
+  </node>
+</launch>

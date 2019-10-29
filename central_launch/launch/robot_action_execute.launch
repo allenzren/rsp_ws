@@ -1,0 +1,23 @@
+<launch>
+  <!-- Debug Info -->
+  <arg name="debug" default="false" />
+  <arg unless="$(arg debug)" name="launch_prefix" value="" />
+  <arg if="$(arg debug)" name="launch_prefix" value="gdb --ex run --args" />
+
+  <!-- args for system procedure -->
+  <param name="start" type="bool" value="false" />
+  <param name="planning_ready" type="bool" value="false" />
+  <!-- <param name="kinematics_ready" type="bool" value="false" /> -->
+  <param name="mapping_done" type="bool" value="false" />
+  
+  <node name="central_action" pkg="central_launch" type="central_action" respawn="false" output="screen">
+  </node>
+
+	<node name="ur5_planning_action" pkg="ur5_kinematics_planning" type="ur5_planning_action" respawn="false" launch-prefix="$(arg launch_prefix)" output="screen">
+    <rosparam command="load" file="$(find ur5_moveit_config)/config/kinematics.yaml"/>
+    <param name="/planning_plugin" value="ompl_interface/OMPLPlanner"/>
+    <rosparam command="load" file="$(find ur5_moveit_config)/config/ompl_planning.yaml"/>
+		<remap from="/ur5_planning_action/planning_scene" to="planning_scene"/>
+  </node>
+
+</launch>

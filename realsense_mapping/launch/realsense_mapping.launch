@@ -1,0 +1,28 @@
+<launch>
+  <!-- Realsense R200 -->
+  <include file="$(find realsense_camera)/launch/r200_nodelet_rgbd.launch"/>
+
+  <!-- RViz -->
+  <node pkg="rviz" type="rviz" name="rviz"/>
+
+  <!-- Octomap Server -->
+  <node pkg="octomap_server" type="octomap_server_node" name="octomap_server">
+    <remap from="cloud_in" to="/camera/depth_registered/points"/>
+    <param name="frame_id" value="/base_link"/>       <!-- fixed frame -->
+    <param name="latch" value="false"/>                 <!-- see wiki -->
+    <param name="resolution" value="0.01"/>             <!-- m/pix -->
+    <param name="sensor_model/max_range" value="1.0"/>  <!-- m -->
+    <param name="pointcloud_max_z" value="1.0"/>        <!-- m -->
+    <param name="pointcloud_min_z" value="0"/>       <!-- m -->
+  </node>
+
+  <!-- launch real UR5 -->
+  <include file="$(find ur_modern_driver)/launch/ur5_bringup.launch">
+    <arg name="robot_ip" value="172.22.22.2" />
+  </include>
+
+
+  <node pkg="tf" type="static_transform_publisher" name="ee_to_cam" args="0.013477 -0.100293 0.050164 0.375415 0.020673 0.002719 0.926622 ee_link camera_link 100"/>
+
+  
+</launch>

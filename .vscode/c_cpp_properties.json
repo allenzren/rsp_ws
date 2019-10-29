@@ -1,0 +1,38 @@
+{
+    "configurations": [
+        {
+            "browse": {
+                "databaseFilename": "",
+                "limitSymbolsToIncludedHeaders": true,
+                "path": [
+                    "/home/zhiyi/terradynamics/devel/include",
+                    "/home/zhiyi/rsp_ws/devel/include",
+                    "/home/zhiyi/catkin_ws/devel/include",
+                    "/opt/ros/kinetic/include",
+                    "/home/zhiyi/rsp_ws/src/beginner_tutorials/include",
+                    "/home/zhiyi/rsp_ws/src/edumip_balance_ros_gazebo_plugin/include",
+                    "/home/zhiyi/rsp_ws/src/edumip_my_robot/include",
+                    "/home/zhiyi/rsp_ws/src/learning_tf/include",
+                    "/usr/include"
+                ]
+            },
+            "includePath": [
+                "/home/zhiyi/terradynamics/devel/include",
+                "/home/zhiyi/rsp_ws/devel/include",
+                "/home/zhiyi/catkin_ws/devel/include",
+                "/opt/ros/kinetic/include",
+                "/home/zhiyi/rsp_ws/src/beginner_tutorials/include",
+                "/home/zhiyi/rsp_ws/src/edumip_balance_ros_gazebo_plugin/include",
+                "/home/zhiyi/rsp_ws/src/edumip_my_robot/include",
+                "/home/zhiyi/rsp_ws/src/learning_tf/include",
+                "/usr/include"
+            ],
+            "name": "Linux",
+            "intelliSenseMode": "clang-x64",
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "c11",
+            "cppStandard": "c++17"
+        }
+    ],
+    "version": 3
+}

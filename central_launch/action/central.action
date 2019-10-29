@@ -1,0 +1,12 @@
+# goal definition
+# type:
+# 1: move
+# 2. cartesian
+geometry_msgs/PoseStamped pose
+uint8 type
+---
+#result definition
+# int32[] sequence
+---
+#feedback
+# int32[] sequence

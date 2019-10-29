@@ -1,0 +1,25 @@
+{
+  "configurations": [
+    {
+      "browse": {
+        "databaseFilename": "",
+        "limitSymbolsToIncludedHeaders": true
+      },
+      "includePath": [
+        "/home/zhiyi/terradynamics/devel/include",
+        "/home/zhiyi/rsp_ws/devel/include",
+        "/home/zhiyi/catkin_ws/devel/include",
+        "/opt/ros/kinetic/include",
+        "/home/zhiyi/rsp_ws/src/beginner_tutorials/include",
+        "/home/zhiyi/rsp_ws/src/edumip_balance_ros_gazebo_plugin/include",
+        "/home/zhiyi/rsp_ws/src/edumip_my_robot/include",
+        "/home/zhiyi/rsp_ws/src/learning_tf/include",
+        "/home/zhiyi/rsp_ws/src/530_707_Independent_Project/openni_camera/openni_camera/include",
+        "/home/zhiyi/rsp_ws/src/530_707_Independent_Project/universal_robot/ur_kinematics/include",
+        "/home/zhiyi/rsp_ws/src/530_707_Independent_Project/ur_modern_driver/include",
+        "/usr/include"
+      ],
+      "name": "Linux"
+    }
+  ]
+}
